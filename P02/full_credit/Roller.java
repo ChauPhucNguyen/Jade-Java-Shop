@@ -19,7 +19,7 @@ public class Roller{
      float average;
      int counter = 0;
      String noDecimal = "######";
-     int[] array = new int[numberOfDices]; 
+     int array[] = new int[numberOfDices]; 
      for (int i = 0; i < numberOfDices; i++)
      {
          array[i]= (int)(Math.random()*numberOfSides) + 1;
