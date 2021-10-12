@@ -28,6 +28,6 @@ public class Java extends Product
   result += separator + i;
   separator = ", ";
  }
-  return name + "(" + darkness + "with " + result + ") $" + price;
+  return name + "(" + darkness + " with " + result + ") $" + price;
  }
 }
