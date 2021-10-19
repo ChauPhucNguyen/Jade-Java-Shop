@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+package store;
+
 public class Store
 {
  protected String storeName;
