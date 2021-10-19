@@ -1,3 +1,4 @@
+package store;
 public class Donut extends Product
 {
  public enum Frosting {unfrosted,chocolate,vanilla,strawberry}
