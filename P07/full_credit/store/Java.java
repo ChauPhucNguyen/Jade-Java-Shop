@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+package store;
+
 public class Java extends Product
 {
  public enum Shot {none,chocolate,vanilla,peppermint,hazelnut}
