@@ -24,7 +24,7 @@ public Java(BufferedReader in) throws IOException
  this.darkness  = Darkness.valueOf(in.readLine());
  this.shots = new ArrayList<>();
  int size = Integer.parseInt(in.readLine());
- for(int i = 0; i < size; i++)
+ for(int i = 0; i < size; ++i)
  shots.add(Shot.valueOf(in.readLine()));
 }
 
