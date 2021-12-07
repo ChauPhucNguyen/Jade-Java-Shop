@@ -720,7 +720,7 @@ public class MainWin extends JFrame
           + "<p>New java icon by Chau-Phuc Nguyen</p>"
           + "<p>Server icon by Chau-Phuc Nguyen</p>"
           + "<p>New donut icon by Chau-Phuc Nguyen"
-          + "<p>Help icon by Vector Stall via the Flat Icon license</p>"
+          + "<p>Save as icon by Vector Stall via the Flat Icon license</p>"
           + "<p>New icon by Chau-Phuc Nguyen</p>"
           + "<p>File icon by Chau-Phuc Nguyen</p>"
           + "<p>Open icon by Chau-Phuc Nguyen</p>"          
