@@ -50,11 +50,6 @@ import store.Server;
 
 public class MainWin extends JFrame
 {
- private final String NAME = "JADE";
- private final String EXT = "jade";
- private final String VERSION = "0.5";
- private final String FILE_VERSION = "1.2";
- private final String MAGIC_COOKIE = "ඞ";
 
  private final int WIDTH = 800;
  private final int HEIGHT = 600;
@@ -69,57 +64,61 @@ public class MainWin extends JFrame
         
   JMenuBar menubar = new JMenuBar();
         
-  JMenu     mFile     = new JMenu("File");
-  JMenuItem mNew      = new JMenuItem("New");
-  JMenuItem mOpen     = new JMenuItem("Open");
-  JMenuItem mSave     = new JMenuItem("Save");
-  JMenuItem mSaveAs   = new JMenuItem("Save As");
-  JMenuItem mQuit     = new JMenuItem("Quit");
-  JMenu     mCreate   = new JMenu("Create");
-  JMenuItem mOrder    = new JMenuItem("Order");
-  JMenuItem mJava     = new JMenuItem("Java");
-  JMenuItem mDonut    = new JMenuItem("Donut");
+  JMenu mFile = new JMenu("File");
+  JMenuItem mNew = new JMenuItem("New");
+  JMenuItem mOpen = new JMenuItem("Open");
+  JMenuItem mSave = new JMenuItem("Save");
+  JMenuItem mSaveAs = new JMenuItem("Save As");
+  JMenuItem mQuit = new JMenuItem("Quit");
+  JMenu mCreate = new JMenu("Create");
+  JMenuItem mOrder = new JMenuItem("Order");
+  JMenuItem mJava = new JMenuItem("Java");
+  JMenuItem mDonut = new JMenuItem("Donut");
   JMenuItem mCustomer = new JMenuItem("Customer");
-  JMenuItem mServer   = new JMenuItem("Server");
-  JMenu     mView     = new JMenu("View");
-  JMenuItem mOrders   = new JMenuItem("Orders");
+  JMenuItem mServer = new JMenuItem("Server");
+  JMenu mView = new JMenu("View");
+  JMenuItem mOrders = new JMenuItem("Orders");
   JMenuItem mProducts = new JMenuItem("Products");
-  JMenuItem mPeople   = new JMenuItem("People");
-  JMenu     mHelp     = new JMenu("Help");
-  JMenuItem mAbout    = new JMenuItem("About");
+  JMenuItem mPeople = new JMenuItem("People");
+  JMenu mHelp = new JMenu("Help");
+  JMenuItem mAbout = new JMenuItem("About");
+  Jmenu mEdit = new JMenu("Edit");
         
-  mNew     .addActionListener(event -> onNewClick());
-  mOpen    .addActionListener(event -> onOpenClick());
-  mSave    .addActionListener(event -> onSaveClick());
-  mSaveAs  .addActionListener(event -> onSaveAsClick());
-  mQuit    .addActionListener(event -> onQuitClick());
-  mOrder   .addActionListener(event -> onCreateOrderClick());
-  mJava    .addActionListener(event -> onCreateJavaClick());
-  mDonut   .addActionListener(event -> onCreateDonutClick());
+  mNew.addActionListener(event -> onNewClick());
+  mOpen.addActionListener(event -> onOpenClick());
+  mSave.addActionListener(event -> onSaveClick());
+  mSaveAs.addActionListener(event -> onSaveAsClick());
+  mQuit.addActionListener(event -> onQuitClick());
+  mOrder.addActionListener(event -> onCreateOrderClick());
+  mJava.addActionListener(event -> onCreateJavaClick());
+  mDonut.addActionListener(event -> onCreateDonutClick());
   mCustomer.addActionListener(event -> onCreateCustomerClick());
-  mServer  .addActionListener(event -> onCreateServerClick());
+  mServer.addActionListener(event -> onCreateServerClick());
   mProducts.addActionListener(event -> updateDisplay(Display.PRODUCTS));
-  mPeople  .addActionListener(event -> updateDisplay(Display.PEOPLE));
-  mOrders  .addActionListener(event -> updateDisplay(Display.ORDERS));
-  mAbout   .addActionListener(event -> onAboutClick());
+  mPeople.addActionListener(event -> updateDisplay(Display.PEOPLE));
+  mOrders.addActionListener(event -> updateDisplay(Display.ORDERS));
+  mAbout.addActionListener(event -> onAboutClick());
+  mEdit.addActionListen(event -> onEditClick());
   
-  mFile  .add(mNew);
-  mFile  .add(mOpen);
-  mFile  .add(mSave);
-  mFile  .add(mSaveAs);
-  mFile  .add(mQuit);
+  
+  mFile.add(mNew);
+  mFile.add(mOpen);
+  mFile.add(mSave);
+  mFile.add(mSaveAs);
+  mFile.add(mQuit);
   mCreate.add(mJava);
   mCreate.add(mDonut);
   mCreate.add(mCustomer);
   mCreate.add(mServer);
-  mView  .add(mProducts);
-  mView  .add(mPeople);
-  mHelp  .add(mAbout);
+  mView.add(mProducts);
+  mView.add(mPeople);
+  mHelp.add(mAbout);
         
   menubar.add(mFile);
   menubar.add(mCreate);
   menubar.add(mView);
   menubar.add(mHelp);
+  menubar.add(mEdit);
         
   setJMenuBar(menubar);
         
@@ -245,29 +244,35 @@ public class MainWin extends JFrame
     
     
     
-    protected void onNewClick() {
+    protected void onNewClick()
+    {
         String storeName = "JADE";
-        if(store != null) {
+        if(store != null)
+        {
             storeName = JOptionPane.showInputDialog(this, "New store name?");
         }
-        if(storeName != null) {
+        if(storeName != null)
+        {
             store = new Store(storeName);
             filename = new File("Untitled.jade");
         }
         updateDisplay(Display.PRODUCTS);
     }
 
-    protected void onOpenClick() {
+    protected void onOpenClick()
+    {
         final JFileChooser fc = new JFileChooser(filename);
         FileFilter jadeFiles = new FileNameExtensionFilter(NAME + " files", EXT);
         fc.addChoosableFileFilter(jadeFiles);
         fc.setFileFilter(jadeFiles);
         
         int result = fc.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION)
+        {
             File fname = fc.getSelectedFile();
              
-            try (BufferedReader br = new BufferedReader(new FileReader(fname))) {
+            try (BufferedReader br = new BufferedReader(new FileReader(fname)))
+            {
                 String magicCookie = br.readLine();
                 if(!magicCookie.equals(MAGIC_COOKIE)) 
                     throw new RuntimeException("Not a " + NAME + " file");
@@ -281,7 +286,8 @@ public class MainWin extends JFrame
                 Store newStore = new Store(br);
                 store = newStore;
                 filename = fname;
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 JOptionPane.showMessageDialog(
                     this, 
                     "Unable to open " + filename + '\n' + e, "Failed",
@@ -290,12 +296,15 @@ public class MainWin extends JFrame
             updateDisplay(Display.PRODUCTS);
         }
     }
-    protected void onSaveClick() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+    protected void onSaveClick()
+    {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename)))
+        {
             bw.write(MAGIC_COOKIE + '\n');
             bw.write(FILE_VERSION + '\n');
             store.save(bw);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             JOptionPane.showMessageDialog(
                 this, 
                 "Unable to save " + filename + '\n' + e, "Failed",
@@ -303,14 +312,16 @@ public class MainWin extends JFrame
         }
     }
 
-    protected void onSaveAsClick() {
+    protected void onSaveAsClick()
+    {
         final JFileChooser fc = new JFileChooser(filename);
         FileFilter jadeFiles = new FileNameExtensionFilter(NAME + " files", EXT);
         fc.addChoosableFileFilter(jadeFiles);
         fc.setFileFilter(jadeFiles);
         
         int result = fc.showSaveDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
+        if (result == JFileChooser.APPROVE_OPTION)
+        {
             File fname = fc.getSelectedFile();
             if(!fname.getAbsolutePath().endsWith("." + EXT))
                 fname = new File(fname.getAbsolutePath() + "." + EXT);
@@ -319,16 +330,20 @@ public class MainWin extends JFrame
         }
     }
 
-    protected void onQuitClick() {
+    protected void onQuitClick()
+    {
         dispose();
     }
     
-    protected void onCreateOrderClick() { 
-        try {
+    protected void onCreateOrderClick()
+    { 
+        try
+        {
             ArrayList<Customer> customers = new ArrayList<>();
             ArrayList<Server>   servers = new ArrayList<>();
         
-            for(Object p : store.getPeople()) {
+            for(Object p : store.getPeople())
+            {
                 if(p instanceof Customer) customers.add((Customer) p);
                 if(p instanceof Server)   servers.add((Server) p);
             }
@@ -341,7 +356,8 @@ public class MainWin extends JFrame
             JLabel lServer = new JLabel("<HTML><BR/>Server</HTML>");
             JComboBox<Object> dServer = new JComboBox<>(servers.toArray());
         
-            Object[] objects = {
+            Object[] objects =
+            {
                 lCustomer, dCustomer,
                 lServer, dServer
             };
@@ -368,7 +384,8 @@ public class MainWin extends JFrame
             JSpinner sQuantity = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
             JComboBox<Object> dProducts = new JComboBox<>(store.getProducts());
             JButton bAdd = new JButton("Add");
-            bAdd.addActionListener(event -> {
+            bAdd.addActionListener(event ->
+            {
                 newOrder.addProduct((Integer) sQuantity.getValue(), 
                                     (Product) dProducts.getSelectedItem());
                 lProducts.setText("<HTML>" + newOrder.toString() 
@@ -385,7 +402,8 @@ public class MainWin extends JFrame
 
             
 
-            Object[] orderObjects = {
+            Object[] orderObjects =
+            {
                 lProducts,
                 productPanel,
             };
@@ -402,13 +420,16 @@ public class MainWin extends JFrame
 
             store.addOrder(newOrder);
             updateDisplay(Display.ORDERS);
-        } catch(Exception e) {
+        } catch(Exception e)
+        {
             msg.setText("Failed to create new Order: " + e.getMessage());
         }
     }
 
-    protected void onCreateJavaClick() {  
-        try {
+    protected void onCreateJavaClick()
+    {  
+        try
+        {
            
             JLabel lName = new JLabel("Name");
             JTextField dName = new JTextField(20);
@@ -440,12 +461,14 @@ public class MainWin extends JFrame
             shotPanel.add(new JComboBox<Shot>(Shot.values()));
             
             JButton addShot = new JButton("Add a Shot");
-            addShot.addActionListener(event -> {
+            addShot.addActionListener(event ->
+            {
                 shotPanel.add(new JComboBox<Shot>(Shot.values()));
             });
             
 
-            Object[] objects = {
+            Object[] objects =
+            {
                 lName,     dName,
                 lPrice,    dPrice,
                 lCost,     dCost,
@@ -470,7 +493,8 @@ public class MainWin extends JFrame
             Darkness darkness = (Darkness) dDarkness.getSelectedItem();
             Java java = new Java(name, price, cost, darkness);
             
-            for(Object o : shotPanel.getComponents()) {
+            for(Object o : shotPanel.getComponents())
+            {
                 if(!(o instanceof JComboBox)) continue; // verify cast will work, then
                 @SuppressWarnings("unchecked")          // skip unchecked cast warning
                     JComboBox<Object> cb = (JComboBox<Object>) o;
@@ -479,13 +503,16 @@ public class MainWin extends JFrame
             }
             store.addProduct(java);
             updateDisplay(Display.PRODUCTS);
-        } catch(Exception e) {
+        } catch(Exception e)
+        {
             msg.setText("Failed to create new Java: " + e.getMessage());
         }
     }
     
-    protected void onCreateDonutClick() {  
-        try {
+    protected void onCreateDonutClick()
+    {  
+        try
+        {
             JLabel lName = new JLabel("Name");
             JTextField dName = new JTextField(20);
 
@@ -505,7 +532,8 @@ public class MainWin extends JFrame
             JLabel lSprinkles = new JLabel("<HTML><BR/>Sprinkles</HTML>");
             JComboBox<Object> dSprinkles = new JComboBox<>(options);
 
-            Object[] objects = {
+            Object[] objects =
+            {
                 lName,      dName,
                 lPrice,     dPrice,
                 lCost,      dCost,
@@ -522,7 +550,8 @@ public class MainWin extends JFrame
                 JOptionPane.QUESTION_MESSAGE
             );
             
-            if(button == JOptionPane.OK_OPTION) {
+            if(button == JOptionPane.OK_OPTION)
+            {
                 String name = dName.getText();
                 double price = (double) dPrice.getValue();
                 double cost = (double) dCost.getValue();
@@ -533,12 +562,14 @@ public class MainWin extends JFrame
                                            frosting, filling, sprinkles));
             }
             updateDisplay(Display.PRODUCTS);
-        } catch(Exception e) {
+        } catch(Exception e)
+        {
             msg.setText("Failed to create new Donut: " + e);
         }
     }
                             
-    protected void onCreateCustomerClick() {
+    protected void onCreateCustomerClick()
+    {
         JLabel lName = new JLabel("Name");
         JTextField dName = new JTextField(20);
 
@@ -546,15 +577,18 @@ public class MainWin extends JFrame
             "<HTML><BR/>Phone  <SMALL>(Example: 123-456-7890)</SMALL></HTML>");
         JTextField dPhone = new JTextField(20);
 
-        Object[] objects = {
+        Object[] objects =
+        {
             lName,  dName,
             lPhone,   dPhone,
         };
 
         final Pattern phoneFormat = Pattern.compile("^(\\d{3})-(\\d{3})-(\\d{4})$");
  
-        while(true) {
-            try {
+        while(true)
+        {
+            try
+            {
                 int button = JOptionPane.showConfirmDialog(
                     this,
                     objects,
@@ -563,7 +597,8 @@ public class MainWin extends JFrame
                     JOptionPane.QUESTION_MESSAGE
                 );
             
-                if(button == JOptionPane.OK_OPTION) {
+                if(button == JOptionPane.OK_OPTION)
+                {
                     String name = dName.getText();
                     String phone = dPhone.getText();
                     if(!phoneFormat.matcher(phone).find())
@@ -572,14 +607,16 @@ public class MainWin extends JFrame
                     updateDisplay(Display.PEOPLE);
                 }
                 break;
-            } catch(Exception e) {
+            } catch(Exception e)
+            {
                 JOptionPane.showMessageDialog(this, "Invalid input: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    protected void onCreateServerClick() {
+    protected void onCreateServerClick()
+    {
         JLabel lName = new JLabel("Name");
         JTextField dName = new JTextField(20);
 
@@ -591,7 +628,8 @@ public class MainWin extends JFrame
             "<HTML><BR/>SSN  <SMALL>(Example: 123-45-6789)</SMALL></HTML>");
         JTextField dSSN = new JTextField(20);
 
-        Object[] objects = {
+        Object[] objects =
+        {
             lName,  dName,
             lPhone, dPhone,
             lSSN,   dSSN,
@@ -600,8 +638,10 @@ public class MainWin extends JFrame
         final Pattern phoneFormat = Pattern.compile("^(\\d{3})-(\\d{3})-(\\d{4})$");
         final Pattern ssnFormat   = Pattern.compile("^(\\d{3})-(\\d{2})-(\\d{4})$");
  
-        while(true) {
-            try {
+        while(true)
+        {
+            try
+            {
                 int button = JOptionPane.showConfirmDialog(
                     this,
                     objects,
@@ -610,7 +650,8 @@ public class MainWin extends JFrame
                     JOptionPane.QUESTION_MESSAGE
                 );
             
-                if(button == JOptionPane.OK_OPTION) {
+                if(button == JOptionPane.OK_OPTION)
+                {
                     String name = dName.getText();
                     String phone = dPhone.getText();
                     if(!phoneFormat.matcher(phone).find())
@@ -622,26 +663,30 @@ public class MainWin extends JFrame
                     updateDisplay(Display.PEOPLE);
                 }
                 break;
-            } catch(Exception e) {
+            } catch(Exception e)
+            {
                 JOptionPane.showMessageDialog(this, "Invalid input: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
          
-    protected void onAboutClick() {                
+    protected void onAboutClick()
+    {                
         JDialog about = new JDialog();
         about.getContentPane().setLayout(
             new BoxLayout(about.getContentPane(), BoxLayout.PAGE_AXIS));
         about.setTitle("Java and Donut Express");
         about.setSize(640,600);
         
-        try {
-            BufferedImage myPicture = ImageIO.read(new File("gui/resources/logo.png"));
+        try
+        {
+            BufferedImage myPicture = ImageIO.read(new File("gui/resources/About.png"));
             JLabel logo = new JLabel(new ImageIcon(myPicture));
             logo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             about.add(logo);
-        } catch(IOException e) {
+        } catch(IOException e)
+        {
         }
         
         JLabel title = new JLabel("<html>"
@@ -654,26 +699,26 @@ public class MainWin extends JFrame
           + "<p>Version 0.2</p>"
           + "<p>Copyright 2021 by Chau-Phuc Nguyen</p>"
           + "<p>Licensed under Gnu GPL 3.0</p>"
-          + "<p>Adopted P10 solution by George Rice</p>"
+          + "<p>Adopted suggested P10 solution by George Rice</p>"
           + "<br/>"
           + "</html>");
         copyright.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         about.add(copyright);
                     
        JLabel artists = new JLabel("<html>"
-          + "<p>JADE Logo by SaxDeux, licensed under CC BY-SA 3.0</p>"
-          + "<p><font size=-2>https://commons.wikimedia.org/wiki/File:Logo_JADE.png</p>"
-          + "<p>Flat Coffee Cup Icon by superawesomevectors, licensed under CC BY-SA 3.0</p>"
-          + "<p><font size=-2>http://fav.me/dbf6otc</p>"
-          + "<p><font size=-2>https://creativecommons.org/licenses/by-sa/3.0/us/</p>"
-          + "<p>Donut Icon by Hazmat2 via Hyju, public domain</p>"
-          + "<p><font size=-2>https://en.wikipedia.org/wiki/File:Simpsons_Donut.svg</p>"
-          + "<p>Server Icon by corpus delicti via the Noun Project</p>"
-          + "<p><font size=-2>https://thenounproject.com/term/waiter/937157</p>"
-          + "<p>Help Icon by Vector Stall via the Flat Icon license</p>"
-          + "<p><font size=-2>https://www.flaticon.com/premium-icon/question-mark_3444393</p>"
-          + "<p>File icons made by Freepik</p>"
-          + "<p><font size=-2>https://www.freepik.com</p>"          
+          + "<p>About icon by Chau-Phuc Nguyen</p>"
+          + "<p>Logo icon by Chau-Phuc Nguyen</p>"
+          + "<p>New Customer icon by Chau-Phuc Nguyen</p>"
+          + "<p>Orders icon by Chau-Phuc Nguyen</p>"
+          + "<p>Save Icon by Chau-Phuc Nguyen</p>"
+          + "<p>Donut icon by Chau-Phuc Nguyen</p>"
+          + "<p>New java icon by Chau-Phuc Nguyen</p>"
+          + "<p>Server icon by Chau-Phuc Nguyen</p>"
+          + "<p>New donut icon by Chau-Phuc Nguyen"
+          + "<p>Help icon by Vector Stall via the Flat Icon license</p>"
+          + "<p>New icon by Chau-Phuc Nguyen</p>"
+          + "<p>File icon by Chau-Phuc Nguyen</p>"
+          + "<p>Open icon by Chau-Phuc Nguyen</p>"          
           + "<br/>"
           + "</html>");
         artists.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -688,12 +733,14 @@ public class MainWin extends JFrame
         about.setVisible(true);
      }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         MainWin myApp = new MainWin("JADE");
         myApp.setVisible(true);
     }
     
-    private void updateDisplay(Display display) {
+    private void updateDisplay(Display display)
+    {
         String s = "ERROR: Invalid display request: " + display;
         if(display == Display.PRODUCTS) s = store.toString();
         if(display == Display.PEOPLE)  s = store.peopleToString();
@@ -703,18 +750,4 @@ public class MainWin extends JFrame
                                  .replaceAll("\n", "<br/>")
                               + "</html>");
     }
-    
-    private Store store;
-    private File filename;
-    
-    private JLabel data;                    // Display of output in main window
-    private JLabel msg;                     // Status message display
-    private JButton bOrder;                 // Button to place an order
-    private JButton bJava;                  // Button to create a new Java product
-    private JButton bDonut;                 // Button to create a new Donut product
-    private JButton bCustomer;              // Button to create a new Customer
-    private JButton bServer;                // Button to create a new Server
-    private JButton bListOrders;            // Button to list orders
-    private JButton bListProducts;          // Button to list products
-    private JButton bListPeople;            // Button to list people
 }
