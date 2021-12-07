@@ -51,6 +51,11 @@ import store.Server;
 public class MainWin extends JFrame
 {
 
+ private final String NAME = "JADE";
+ private final String EXT = "jade";
+ private final String VERSION = "0.5";
+ private final String FILE_VERSION = "1.2";
+ private final String MAGIC_COOKIE = "ඞ";
  private final int WIDTH = 800;
  private final int HEIGHT = 600;
     
@@ -325,7 +330,7 @@ public class MainWin extends JFrame
             File fname = fc.getSelectedFile();
             if(!fname.getAbsolutePath().endsWith("." + EXT))
                 fname = new File(fname.getAbsolutePath() + "." + EXT);
-            filename = fname; // Success - use new filename!
+            filename = fname;
             onSaveClick();
         }
     }
