@@ -686,7 +686,7 @@ public class MainWin extends JFrame
         
         try
         {
-            BufferedImage myPicture = ImageIO.read(new File("gui/resources/About.png"));
+            BufferedImage myPicture = ImageIO.read(new File("gui/resources/Logo.png"));
             JLabel logo = new JLabel(new ImageIcon(myPicture));
             logo.setAlignmentX(JLabel.CENTER_ALIGNMENT);
             about.add(logo);
